@@ -10,7 +10,7 @@
 
 <p>
   <strong>Author:</strong>
-  <%= @post.author_id %>
+  <%= @post.author.username %>
 </p>
 
 <%= link_to 'Edit', edit_post_path(@post) %> |
