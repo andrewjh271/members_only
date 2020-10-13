@@ -9,9 +9,30 @@
 </p>
 
 <p>
-  <strong>Author:</strong>
-  <%= @post.author.username %>
+  <strong>Likes:</strong>
+  <%= @post.likes.count %>
 </p>
 
+<% if user_signed_in? %>
+  <p>
+    <strong>Author:</strong>
+    <%= @post.author.username %>
+  </p>
+  <p>
+    <strong>Liked by:</strong>
+    <ul>
+      <% @post.likes.each do |like| %>
+        <li><%= like.user.username %></li>
+      <% end %>
+    </ul>
+  </p>
+  <% if like = current_user.find_like(@post) %>
+    <td><%= button_to 'Unlike', like_path(like), method: :delete %></td>
+  <% else %>
+    <td><%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: @post } } %></td>
+  <% end %>
+<% end %>
+
+<br>
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>

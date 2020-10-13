@@ -5,7 +5,9 @@
     <tr>
       <th>Title</th>
       <th>Body</th>
+      <th>Likes</th>
       <% if user_signed_in? %>
+        <th></th>
         <th>Author</th>
       <% end %>
       <th colspan="3"></th>
@@ -17,7 +19,13 @@
       <tr>
         <td><%= post.title %></td>
         <td><%= post.body %></td>
+        <td><%= post.likes.count %>
         <% if user_signed_in? %>
+          <% if like = current_user.find_like(post) %>
+            <td><%= button_to 'Unlike', like_path(like), method: :delete %></td>
+          <% else %>
+            <td><%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: post } } %></td>
+          <% end %>
           <td><%= post.author.username %></td>
         <% end %>
         <td><%= link_to 'Show', post %></td>

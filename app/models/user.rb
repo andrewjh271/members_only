@@ -10,6 +10,7 @@
 #  remember_created_at    :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  username               :string           not null
 #
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -22,4 +23,11 @@ class User < ApplicationRecord
   has_many :posts,
     foreign_key: :author_id,
     dependent: :destroy
+
+  has_many :likes,
+    dependent: :destroy
+
+  def find_like(post)
+    Like.find_by(user: self, post: post)
+  end
 end

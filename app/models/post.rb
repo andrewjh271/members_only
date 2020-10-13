@@ -3,8 +3,8 @@
 # Table name: posts
 #
 #  id         :bigint           not null, primary key
-#  title      :string
-#  body       :text
+#  title      :string           not null
+#  body       :text             not null
 #  author_id  :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -14,4 +14,7 @@ class Post < ApplicationRecord
 
   belongs_to :author,
     class_name: :User
+
+  has_many :likes,
+    dependent: :destroy
 end
