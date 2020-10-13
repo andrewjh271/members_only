@@ -26,8 +26,4 @@ class User < ApplicationRecord
 
   has_many :likes,
     dependent: :destroy
-
-  def find_like(post)
-    Like.find_by(user: self, post: post)
-  end
 end

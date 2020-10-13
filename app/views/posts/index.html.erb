@@ -15,13 +15,20 @@
   </thead>
 
   <tbody>
-    <% @posts.each do |post| %>
+    <% @posts.includes(:likes, :author).each do |post| %>
       <tr>
         <td><%= post.title %></td>
         <td><%= post.body %></td>
-        <td><%= post.likes.count %>
+        <td><%= post.likes.length %>
         <% if user_signed_in? %>
-          <% if like = current_user.find_like(post) %>
+          <% like = post.likes.find { |like| like.user_id == current_user.id } %>
+          <%# like = Like.find_by(user: current_user, post: post) %>
+          <!-- I know using SQL for this kind of task is generally preferable, especially since Ruby isn't
+               able to make use of the database index on user_id in the likes table. However, this does
+               eliminate an n+1 query situation. I didn't know how to eager load the specific like that
+               meets the criteria I need while still eager loading the other required data. With a small
+               amount of data, the Ruby approach is notably faster. -->
+          <% if like %>
             <td><%= button_to 'Unlike', like_path(like), method: :delete %></td>
           <% else %>
             <td><%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: post } } %></td>

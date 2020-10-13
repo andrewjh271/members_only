@@ -21,12 +21,13 @@
   <p>
     <strong>Liked by:</strong>
     <ul>
-      <% @post.likes.each do |like| %>
+      <% @post.likes.includes(:user).each do |like| %>
         <li><%= like.user.username %></li>
       <% end %>
     </ul>
   </p>
-  <% if like = current_user.find_like(@post) %>
+  <% like = Like.find_by(user: current_user, post: @post) %>
+  <% if like %>
     <td><%= button_to 'Unlike', like_path(like), method: :delete %></td>
   <% else %>
     <td><%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: @post } } %></td>
