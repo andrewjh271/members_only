@@ -1,0 +1,50 @@
+<h1>Posts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Likes</th>
+      <% if user_signed_in? %>
+        <th></th>
+        <th>Author</th>
+      <% end %>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @posts.includes(:likes, :author).each do |post| %>
+      <tr>
+        <td><%= post.title %></td>
+        <td><%= post.body %></td>
+        <td><%= post.likes.length %>
+        <% if user_signed_in? %>
+          <% like = post.likes.find { |like| like.user_id == current_user.id } %>
+          <%# like = Like.find_by(user: current_user, post: post) %>
+          <!-- I know using SQL for this kind of task is generally preferable, especially since Ruby isn't
+               able to make use of the database index on user_id in the likes table. However, this does
+               eliminate an n+1 query situation. I didn't know how to eager load the specific like that
+               meets the criteria I need while still eager loading the other required data. With a small
+               amount of data, the Ruby approach is notably faster. -->
+          <% if like %>
+            <td><%= button_to 'Unlike', like_path(like), method: :delete %></td>
+          <% else %>
+            <td><%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: post } } %></td>
+          <% end %>
+          <td><%= post.author.username %></td>
+        <% end %>
+        <td><%= link_to 'Show', post %></td>
+        <% if current_user.try(:id) == post.author_id %>
+          <td><%= link_to 'Edit', edit_post_path(post) %></td>
+          <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Post', new_post_path %>

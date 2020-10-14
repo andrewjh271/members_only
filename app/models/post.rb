@@ -10,6 +10,8 @@
 #  updated_at :datetime         not null
 #
 class Post < ApplicationRecord
+  include ActionView::Helpers::DateHelper
+
   validates :title, :body, presence: true
 
   belongs_to :author,
@@ -17,4 +19,8 @@ class Post < ApplicationRecord
 
   has_many :likes,
     dependent: :destroy
+
+  def age
+    time_ago_in_words(created_at)
+  end
 end
