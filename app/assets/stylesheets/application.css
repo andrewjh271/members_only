@@ -109,13 +109,27 @@ a:visited {
   color: white;
 }
 
+.important-button:focus {
+  outline: none;
+  background-color: #2758bb !important;
+  box-shadow: 1px 3px 8px #6681a7d1;
+  color: white;
+}
+
 .cancel {
-  background-color: #ce6fb17c !important;
+  background-color: #f56d6d !important;
   border-radius: 10px;
   height: 25px;
 }
 
 .cancel:hover {
-  background-color: #471252 !important;
+  background-color: #960101 !important;
+  color: white;
+}
+
+.cancel:focus {
+  outline: none;
+  background-color: #3a0000 !important;
+  box-shadow: 1px 3px 8px #6681a7d1;
   color: white;
 }
