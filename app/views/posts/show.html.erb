@@ -1,39 +1,44 @@
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
-
-<p>
-  <strong>Body:</strong>
-  <%= @post.body %>
-</p>
-
-<p>
-  <strong>Likes:</strong>
-  <%= @post.likes.count %>
-</p>
-
-<% if user_signed_in? %>
+<div class='page-body'>
   <p>
-    <strong>Author:</strong>
-    <%= @post.author.username %>
+    <strong>Title:</strong>
+    <%= @post.title %>
   </p>
+
   <p>
-    <strong>Liked by:</strong>
-    <ul>
-      <% @post.likes.includes(:user).each do |like| %>
-        <li><%= like.user.username %></li>
-      <% end %>
-    </ul>
+    <strong>Body:</strong>
+    <%= @post.body %>
   </p>
-  <% like = Like.find_by(user: current_user, post: @post) %>
-  <% if like %>
-    <td><%= button_to 'Unlike', like_path(like), method: :delete %></td>
-  <% else %>
-    <td><%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: @post } } %></td>
+
+  <p>
+    <strong>Likes:</strong>
+    <%= @post.likes.count %>
+  </p>
+
+  <% if user_signed_in? %>
+    <p>
+      <strong>Author:</strong>
+      <%= @post.author.username %>
+    </p>
+    <p>
+      <strong>Liked by:</strong>
+      <ul>
+        <% @post.likes.includes(:user).each do |like| %>
+          <li><%= like.user.username %></li>
+        <% end %>
+      </ul>
+    </p>
+    <% like = Like.find_by(user: current_user, post: @post) %>
+    <% if like %>
+      <%= button_to 'Unlike', like_path(like), method: :delete, class: 'like-link'%>
+    <% else %>
+      <%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: @post } }, class: 'like-link' %>
+    <% end %>
   <% end %>
-<% end %>
 
-<br>
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+  <br>
+  <%= link_to 'Back', posts_path %>
+  <% if current_user.try(:id) == @post.author_id %>
+    <%= link_to 'Edit', edit_post_path(@post) %>
+    <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %>
+</div>

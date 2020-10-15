@@ -2,25 +2,27 @@
   <% @posts.includes(:likes, :author).each do |post| %>
     <div class='post'>  
       <div class='title'><%= post.title %></div>
-      <div class='age'><%= post.age %> ago</div>
+      <div class='history'><%= post.history %></div>
       <div class='body'><%= post.body %></div>
-      <div class='like-count'><%= post.likes.length %></div>
+      <div class='like-count'><i class="fas fa-thumbs-up"></i><%= post.likes.length %></div>
       <% if user_signed_in? %>
         <div class='like'>
           <% like = post.likes.find { |like| like.user_id == current_user.id } %>
           <% if like %>
-            <td><%= button_to 'Unlike', like_path(like), method: :delete %></td>
+            <%= button_to 'Unlike', like_path(like), method: :delete, class: 'like-link'%>
           <% else %>
-            <td><%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: post } } %></td>
+            <%= button_to 'Like', likes_path, params: { like: { user_id: current_user, post_id: post } }, class: 'like-link' %>
           <% end %>
         </div>
         <div class='author'><%= post.author.username %></div>
+      <% else %>
+        <div class='like-border'></div>
       <% end %>
       <div class='post-links'>
         <%= link_to 'Show', post %>
         <% if current_user.try(:id) == post.author_id %>
           <%= link_to 'Edit', edit_post_path(post) %>
-          <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
       </div>
     </div>

@@ -7,23 +7,39 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/07b0558508.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
-    <div class='container'>
-      <header>
-        <%= link_to 'Home', root_path %>
+    <header>
+      <div class='header-left'>
+        <button class='header-button'>
+          <%= link_to 'Home', root_path, class: 'header-item' %>
+        </button>
+      </div>
+      <div class='header-right'>
+        <button class='header-button border-right'>
+          <%= link_to 'New Post', new_post_path, class: 'header-item' %>
+        </button><!--
         <% if user_signed_in? %>
-          <%= current_user.username %>
-          <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+          --><button class='header-button border-right'>
+            <%= link_to current_user.username, edit_user_registration_path, class: 'header-item' %>
+          </button><!--
+          --><button class='header-button'>
+            <%= link_to 'Logout', destroy_user_session_path, class: 'header-item', method: :delete %>
+          </button>
         <% else %>
-          <%= link_to 'Login', new_user_session_path %>
-          <%= link_to 'Sign Up', new_user_registration_path %>
+          --><button class='header-button border-right'>
+            <%= link_to 'Login', new_user_session_path, class: 'header-item' %>
+          </button><!--
+          --><button class='header-button'>
+            <%= link_to 'Sign Up', new_user_registration_path, class: 'header-item' %>
+          </button>
         <% end %>
-      </header>
-      <p id="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-      <%= yield %>
-    </div>
+      </div>
+    </header>
+    <p id="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <%= yield %>
   </body>
 </html>

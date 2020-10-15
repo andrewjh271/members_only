@@ -20,7 +20,13 @@ class Post < ApplicationRecord
   has_many :likes,
     dependent: :destroy
 
-  def age
-    time_ago_in_words(created_at)
+  def history
+    history = 
+      if created_at > 4.days.ago
+        time_ago_in_words(created_at) + ' ago'
+      else
+        created_at.strftime('%b %-d %Y')
+      end
+    created_at == updated_at ? history : (history + '<i> (edited)</i>').html_safe
   end
 end
