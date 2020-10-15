@@ -13,8 +13,11 @@
   <body>
     <header>
       <div class='header-left'>
-        <button class='header-button'>
+        <button class='header-button border-right'>
           <%= link_to 'Home', root_path, class: 'header-item' %>
+        </button><!--
+        --><button class='header-button'>
+          <%= link_to 'About', about_path, class: 'header-item' %>
         </button>
       </div>
       <div class='header-right'>

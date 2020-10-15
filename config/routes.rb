@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   resources :posts
   devise_for :users
   resources :likes, only: [:create, :destroy]
+  get 'about', to: 'application#about'
 end
