@@ -20,6 +20,10 @@ class Post < ApplicationRecord
   has_many :likes,
     dependent: :destroy
 
+  has_many :user_likes,
+    through: :likes,
+    source: :user
+
   def history
     history = 
       if created_at > 4.days.ago

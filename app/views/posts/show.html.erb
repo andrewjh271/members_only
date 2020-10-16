@@ -22,8 +22,8 @@
     <p>
       <strong>Liked by:</strong>
       <ul>
-        <% @post.likes.includes(:user).each do |like| %>
-          <li><%= like.user.username %></li>
+        <% @post.user_likes.each do |user| %>
+          <li><%= user.username %></li>
         <% end %>
       </ul>
     </p>
