@@ -1,6 +1,6 @@
 # Members Only
 
-Created as part of the Odin Project curriculum.
+Created as part of the Odin Project curriculum. View [live page](https://obscure-scrubland-64894.herokuapp.com/).
 
 For full functionality sign up or login with *odin@example.com* and *password*.
 
