@@ -13,6 +13,7 @@ class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
   validates :title, :body, presence: true
+  validates :title, uniqueness: true
 
   belongs_to :author,
     class_name: :User
