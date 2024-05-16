@@ -76,7 +76,7 @@ class PostsController < ApplicationController
     end
 
     def require_author!
-      unless current_user.try(:id) == @post.author_id
+      unless current_user == @post.author
         flash[:alert] = 'You are not authorized to edit this post!'
         redirect_to root_url
       end
