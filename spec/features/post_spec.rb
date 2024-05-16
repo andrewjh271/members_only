@@ -5,14 +5,14 @@ feature 'creating a new post' do
   given(:post) { FactoryBot.create(:post) }
 
   scenario 'has a create page' do
-    login(user)
+    sign_in(user)
     visit new_post_url
     expect(page).to have_content 'New Post'
   end
 
   feature 'creates a post' do
     background(:each) do
-      login(user)
+      sign_in(user)
       visit new_post_url
       fill_in 'post_title', with: 'Green fire'
       fill_in 'post_body', with: 'Green fire is lucky.'
@@ -38,13 +38,13 @@ feature 'editing an existing post' do
   given(:post) { FactoryBot.create(:post, author: user) }
 
   scenario 'has an edit page' do
-    login(user)
+    sign_in(user)
     visit edit_post_url(post)
     expect(page).to have_content 'Edit Post'
   end
 
   scenario 'updates post and redirects to show page' do
-    login(user)
+    sign_in(user)
     visit edit_post_url(post)
     fill_in 'post_title', with: 'Green fire'
     fill_in 'post_body', with: 'Green fire is lucky.'
@@ -54,7 +54,7 @@ feature 'editing an existing post' do
   end
 
   scenario 'does not allow edit for user who is not author' do
-    login(FactoryBot.create(:user))
+    sign_in(FactoryBot.create(:user))
     visit edit_post_url(post)
     expect(page).to have_content('You are not authorized to edit this post!')
   end
@@ -65,7 +65,7 @@ feature 'deleting a post' do
   given(:post) { FactoryBot.create(:post, author: user) }
   
   scenario 'deletes post and redirects to index' do
-    login(user)
+    sign_in(user)
     visit post_url(post)
     expect(page).to have_content post.title
     expect(page).to have_content post.body
@@ -101,14 +101,14 @@ feature 'homepage (posts#index)' do
 
   scenario 'does show author for authenticated user' do
     post1
-    login(user1)
+    sign_in(user1)
     visit posts_url
     expect(page).to have_content post1.author.username
   end
 
   scenario 'shows like button for unauthenticated user' do
     post1
-    login(user1)
+    sign_in(user1)
     visit posts_url
     expect(page).to have_button('Like')
   end
@@ -121,7 +121,7 @@ feature 'homepage (posts#index)' do
 
   scenario 'toggles Like button' do
     post1
-    login(user1)
+    sign_in(user1)
     visit posts_url
     expect(page).to have_button('Like')
     expect(page).not_to have_button('Unlike')
@@ -135,14 +135,14 @@ feature 'homepage (posts#index)' do
 
   scenario 'shows count for post\'s number of likes' do
     post1
-    login(user1)
+    sign_in(user1)
     visit posts_url
     expect(page).to have_content('0')
     click_on 'Like'
     expect(page).to have_content('1')
     expect(page).not_to have_content('0')
 
-    login(user2)
+    sign_in(user2)
     visit posts_url
     click_on 'Like'
     expect(page).to have_content('2')

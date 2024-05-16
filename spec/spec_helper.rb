@@ -95,7 +95,7 @@ RSpec.configure do |config|
 =end
 end
 
-def login(user)
-  allow_any_instance_of(ApplicationController).to receive(:current_user) { user }
-  allow_any_instance_of(ApplicationController).to receive(:authenticate_user!).and_return(true)
-end
+# def login(user)
+#   allow_any_instance_of(ApplicationController).to receive(:current_user) { user }
+#   allow_any_instance_of(ApplicationController).to receive(:authenticate_user!).and_return(true)
+# end
