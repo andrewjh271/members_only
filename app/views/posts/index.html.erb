@@ -20,7 +20,7 @@
       <% end %>
       <div class='post-links'>
         <%= link_to 'Show', post %>
-        <% if current_user.try(:id) == post.author_id %>
+        <% if current_user == post.author %>
           <%= link_to 'Edit', edit_post_path(post) %>
           <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
